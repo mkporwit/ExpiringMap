@@ -105,6 +105,7 @@ public class ExpiringMapTest
     	assertNull("ret is null", ret);
     	Thread.sleep(500);
     	// At this point the background cleanup thread should have removed the items
+    	// and the map size should now be 3
     	assertEquals("map has three elements", 3, map.size());
     	Thread.sleep(timeout + 1);
     	assertEquals("map has zero elements", 0, map.size());

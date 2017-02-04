@@ -96,7 +96,15 @@ public class ExpiringMapTest
     	map.put("testKey5", "testValue5", timeout);
     	map.put("testKey6", "testValue6", timeout);
     	assertEquals("map has six elements", 6, map.size());
-    	Thread.sleep(2000+1);
+    	Thread.sleep(500+1);
+    	// Although the first item has been invalidated and ret should be null,
+    	// the background cleanup thread has not yet removed it from the map, 
+    	// so the size is still 6
+    	String ret = map.get("testKey1");
+    	assertEquals("map still has six elements", 6, map.size());
+    	assertNull("ret is null", ret);
+    	Thread.sleep(500);
+    	// At this point the background cleanup thread should have removed the items
     	assertEquals("map has three elements", 3, map.size());
     	Thread.sleep(timeout + 1);
     	assertEquals("map has zero elements", 0, map.size());
